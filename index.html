@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriAI - Hackathon Prototype</title>
+    <meta name="description" content="NutriAI: a personalised, AI-powered food and wellness coach built on Indian nutrition data.">
+    <meta name="theme-color" content="#2e7d32">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>NutriAI 🌿</h1>
+        <p>Your Intelligent Health Coach</p>
+    </header>
+
+    <main id="app-container">
+        <!-- SCREEN 1: Biometrics -->
+        <section id="screen-1" class="screen active">
+            <div class="card">
+                <h2>Step 1: Basic Biometrics</h2>
+                <form id="form-1">
+                    <div class="form-row">
+                        <label>Age: <input type="number" id="age" required min="18" max="100"></label>
+                        <label>Sex: 
+                            <select id="sex">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label>Height (cm): <input type="number" id="height" required min="100" max="250"></label>
+                        <label>Weight (kg): <input type="number" id="weight" required min="30" max="300"></label>
+                    </div>
+                    <button type="submit" class="primary-btn">Next Step &rarr;</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: Lifestyle & Goals -->
+        <section id="screen-2" class="screen">
+            <div class="card">
+                <button type="button" class="text-btn" onclick="switchScreen(1)">&larr; Back</button>
+                <h2>Step 2: Lifestyle & Diet</h2>
+                <form id="form-2">
+                    
+                    <h3 class="section-subtitle">Activity Level</h3>
+                    <div class="selection-grid">
+                        <label class="selection-card">
+                            <input type="radio" name="activity" value="1.2" checked>
+                            <div class="selection-content">
+                                <div class="selection-icon">💻</div>
+                                <div class="selection-text">
+                                    <h4>Sedentary</h4>
+                                    <p>Desk job, little to no exercise</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="activity" value="1.375">
+                            <div class="selection-content">
+                                <div class="selection-icon">🚶</div>
+                                <div class="selection-text">
+                                    <h4>Light</h4>
+                                    <p>Exercise 1-3 days/week</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="activity" value="1.55">
+                            <div class="selection-content">
+                                <div class="selection-icon">🏃</div>
+                                <div class="selection-text">
+                                    <h4>Moderate</h4>
+                                    <p>Exercise 3-5 days/week</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="activity" value="1.725">
+                            <div class="selection-content">
+                                <div class="selection-icon">🏋️</div>
+                                <div class="selection-text">
+                                    <h4>Active</h4>
+                                    <p>Intense exercise 6-7 days/week</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <h3 class="section-subtitle">Primary Goal</h3>
+                    <div class="selection-grid">
+                        <label class="selection-card">
+                            <input type="radio" name="goal" value="lose" checked>
+                            <div class="selection-content">
+                                <div class="selection-icon">📉</div>
+                                <div class="selection-text">
+                                    <h4>Lose Weight</h4>
+                                    <p>Caloric deficit for fat loss</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="goal" value="maintain">
+                            <div class="selection-content">
+                                <div class="selection-icon">⚖️</div>
+                                <div class="selection-text">
+                                    <h4>Maintain</h4>
+                                    <p>Keep current weight stable</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="goal" value="gain">
+                            <div class="selection-content">
+                                <div class="selection-icon">📈</div>
+                                <div class="selection-text">
+                                    <h4>Gain Muscle</h4>
+                                    <p>Caloric surplus for growth</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <h3 class="section-subtitle">Dietary Preference</h3>
+                    <div class="selection-grid">
+                        <label class="selection-card">
+                            <input type="radio" name="diet" value="Vegetarian" checked>
+                            <div class="selection-content">
+                                <div class="selection-icon">🥗</div>
+                                <div class="selection-text">
+                                    <h4>Vegetarian</h4>
+                                    <p>Plant-based + Dairy</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="diet" value="Non-Vegetarian">
+                            <div class="selection-content">
+                                <div class="selection-icon">🍗</div>
+                                <div class="selection-text">
+                                    <h4>Non-Vegetarian</h4>
+                                    <p>Includes meat and seafood</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="diet" value="Vegan">
+                            <div class="selection-content">
+                                <div class="selection-icon">🌱</div>
+                                <div class="selection-text">
+                                    <h4>Vegan</h4>
+                                    <p>Strictly plant-based</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="diet" value="Eggetarian">
+                            <div class="selection-content">
+                                <div class="selection-icon">🥚</div>
+                                <div class="selection-text">
+                                    <h4>Eggetarian</h4>
+                                    <p>Vegetarian + Eggs</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="primary-btn">Next Step &rarr;</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: Health Conditions -->
+        <section id="screen-3" class="screen">
+            <div class="card">
+                <button type="button" class="text-btn" onclick="switchScreen(2)">&larr; Back</button>
+                <h2>Step 3: Health Conditions</h2>
+                <p style="font-size:0.85rem; color:var(--text-light); margin-top:-10px; margin-bottom: 1.5rem;">Select any conditions so our AI can personalize your advice.</p>
+                
+                <form id="form-3">
+                    <div class="selection-grid">
+                        <label class="selection-card">
+                            <input type="checkbox" value="Diabetes" class="condition-cb">
+                            <div class="selection-content">
+                                <div class="selection-icon">🩸</div>
+                                <div class="selection-text">
+                                    <h4>Diabetes</h4>
+                                    <p>Blood sugar management</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="checkbox" value="Hypertension" class="condition-cb">
+                            <div class="selection-content">
+                                <div class="selection-icon">❤️</div>
+                                <div class="selection-text">
+                                    <h4>Hypertension</h4>
+                                    <p>Blood pressure focus</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="checkbox" value="Thyroid/Goitre" class="condition-cb">
+                            <div class="selection-content">
+                                <div class="selection-icon">🦋</div>
+                                <div class="selection-text">
+                                    <h4>Thyroid / Goitre</h4>
+                                    <p>Metabolic considerations</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="checkbox" value="High Cholesterol" class="condition-cb">
+                            <div class="selection-content">
+                                <div class="selection-icon">🧈</div>
+                                <div class="selection-text">
+                                    <h4>High Cholesterol</h4>
+                                    <p>Heart-healthy fats</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="checkbox" value="Lactose Intolerant" class="condition-cb">
+                            <div class="selection-content">
+                                <div class="selection-icon">🥛</div>
+                                <div class="selection-text">
+                                    <h4>Lactose Intolerant</h4>
+                                    <p>Dairy-free guidance</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="form-row" style="margin-top: 1rem;">
+                        <label style="font-size: 1rem; color: var(--text-main);">Other Serious Conditions (Optional):
+                            <input type="text" id="other-conditions" placeholder="E.g., Nut allergy, ...">
+                        </label>
+                    </div>
+                    <button type="submit" id="complete-profile-btn" class="primary-btn">Complete Profile &rarr;</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: The Chat Interface -->
+        <section id="screen-4" class="screen">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3>NutriAI Assistant</h3>
+                    <button id="edit-profile-btn" class="text-btn" style="color: white; margin: 0; padding: 5px;">Edit Profile</button>
+                </div>
+                
+                <div class="chat-history" id="chat-history" aria-live="polite">
+                    <!-- Chat bubbles injected by JS -->
+                </div>
+                
+                <form id="chat-form" class="chat-input-area">
+                    <input type="text" id="chat-input" aria-label="Ask about a food" required autocomplete="off" placeholder="Ask about a food (e.g., Rajma) ...">
+                    <button type="submit" id="send-btn" class="primary-btn">Send</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for Full Insights -->
+    <div id="insights-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-food-name">
+        <div class="modal-content">
+            <button type="button" id="close-modal" class="close-modal" aria-label="Close">&times;</button>
+            <h3 id="modal-food-name">Food Name</h3>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: -10px;">Nutrition verified per 100g from INDB</p>
+            <ul id="modal-macros-list">
+                <!-- Populated by JS -->
+            </ul>
+        </div>
+    </div>
+
+    <footer class="disclaimer">NutriAI offers general wellness information, not medical advice. Your profile stays in your browser; chat messages are sent to Google's Gemini API.</footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

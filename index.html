@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriAI - Hackathon Prototype</title>
-    <meta name="description" content="NutriAI: a personalised, AI-powered food and wellness coach built on Indian nutrition data.">
+    <title>NutriAI - Intelligent Nutrition & Health Coach</title>
+    <meta name="description" content="NutriAI: a personalised, AI-powered food and wellness coach built on Indian nutrition data and live web search.">
     <meta name="theme-color" content="#2e7d32">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header id="main-header">
-        <h1>NutriAI 🌿</h1>
-        <p>Your Intelligent Health Coach</p>
+        <div class="header-top-row">
+            <div>
+                <h1>NutriAI 🌿</h1>
+                <p>Your Intelligent Health &amp; Micronutrient Coach</p>
+            </div>
+            <button type="button" id="theme-toggle-btn" class="icon-btn" aria-label="Toggle Dark Mode" title="Toggle Dark/Light Theme">🌙</button>
+        </div>
     </header>
 
     <main id="app-container">
@@ -21,7 +26,7 @@
                 <h2>Step 1: Basic Biometrics</h2>
                 <form id="form-1">
                     <div class="form-row">
-                        <label>Age: <input type="number" id="age" required min="18" max="100"></label>
+                        <label>Age (years): <input type="number" id="age" required min="15" max="100" placeholder="e.g., 21"></label>
                         <label>Sex: 
                             <select id="sex">
                                 <option value="male">Male</option>
@@ -30,8 +35,8 @@
                         </label>
                     </div>
                     <div class="form-row">
-                        <label>Height (cm): <input type="number" id="height" required min="100" max="250"></label>
-                        <label>Weight (kg): <input type="number" id="weight" required min="30" max="300"></label>
+                        <label>Height (cm): <input type="number" id="height" required min="100" max="250" placeholder="e.g., 175"></label>
+                        <label>Weight (kg): <input type="number" id="weight" required min="30" max="300" step="0.1" placeholder="e.g., 68"></label>
                     </div>
                     <button type="submit" class="primary-btn">Next Step &rarr;</button>
                 </form>
@@ -42,7 +47,7 @@
         <section id="screen-2" class="screen">
             <div class="card">
                 <button type="button" class="text-btn" onclick="switchScreen(1)">&larr; Back</button>
-                <h2>Step 2: Lifestyle & Diet</h2>
+                <h2>Step 2: Lifestyle &amp; Diet</h2>
                 <form id="form-2">
                     
                     <h3 class="section-subtitle">Activity Level</h3>
@@ -177,7 +182,7 @@
             <div class="card">
                 <button type="button" class="text-btn" onclick="switchScreen(2)">&larr; Back</button>
                 <h2>Step 3: Health Conditions</h2>
-                <p style="font-size:0.85rem; color:var(--text-light); margin-top:-10px; margin-bottom: 1.5rem;">Select any conditions so our AI can personalize your advice.</p>
+                <p class="subtitle-hint">Select any conditions so our AI can tailor clinical &amp; nutritional warnings.</p>
                 
                 <form id="form-3">
                     <div class="selection-grid">
@@ -187,7 +192,7 @@
                                 <div class="selection-icon">🩸</div>
                                 <div class="selection-text">
                                     <h4>Diabetes</h4>
-                                    <p>Blood sugar management</p>
+                                    <p>Blood sugar &amp; GI management</p>
                                 </div>
                             </div>
                         </label>
@@ -197,7 +202,7 @@
                                 <div class="selection-icon">❤️</div>
                                 <div class="selection-text">
                                     <h4>Hypertension</h4>
-                                    <p>Blood pressure focus</p>
+                                    <p>Blood pressure &amp; sodium focus</p>
                                 </div>
                             </div>
                         </label>
@@ -217,7 +222,7 @@
                                 <div class="selection-icon">🧈</div>
                                 <div class="selection-text">
                                     <h4>High Cholesterol</h4>
-                                    <p>Heart-healthy fats</p>
+                                    <p>Lipid &amp; saturated fat control</p>
                                 </div>
                             </div>
                         </label>
@@ -234,8 +239,8 @@
                     </div>
 
                     <div class="form-row" style="margin-top: 1rem;">
-                        <label style="font-size: 1rem; color: var(--text-main);">Other Serious Conditions (Optional):
-                            <input type="text" id="other-conditions" placeholder="E.g., Nut allergy, ...">
+                        <label style="font-size: 1rem; color: var(--text-main);">Other Conditions or Allergies (Optional):
+                            <input type="text" id="other-conditions" placeholder="E.g., Peanut allergy, Gluten intolerance, PCOS...">
                         </label>
                     </div>
                     <button type="submit" id="complete-profile-btn" class="primary-btn">Complete Profile &rarr;</button>
@@ -243,39 +248,146 @@
             </div>
         </section>
 
-        <!-- SCREEN 4: The Chat Interface -->
+        <!-- SCREEN 4: Dashboard (Profile Window + Chat Interface) -->
         <section id="screen-4" class="screen">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h3>NutriAI Assistant</h3>
-                    <button id="edit-profile-btn" class="text-btn" style="color: white; margin: 0; padding: 5px;">Edit Profile</button>
-                </div>
+            <div class="dashboard-layout">
                 
-                <div class="chat-history" id="chat-history" aria-live="polite">
-                    <!-- Chat bubbles injected by JS -->
+                <!-- LEFT / TOP: User Profile & Daily Targets Window -->
+                <aside class="profile-window" id="profile-window" aria-label="Your Health Profile">
+                    <div class="profile-window-header">
+                        <div>
+                            <h3>👤 My Nutrition Profile</h3>
+                            <span id="profile-bmi-badge" class="bmi-pill">BMI: --</span>
+                        </div>
+                        <button type="button" id="edit-profile-btn" class="small-outline-btn">Edit</button>
+                    </div>
+
+                    <!-- Primary Targets (Big Bold Figures) -->
+                    <div class="profile-targets-grid">
+                        <div class="target-box cal-box">
+                            <span class="target-label">Daily Calorie Target</span>
+                            <strong class="target-big-value" id="prof-calories">--</strong>
+                            <span class="target-unit">kcal / day</span>
+                        </div>
+                        <div class="target-box pro-box">
+                            <span class="target-label">Desired Protein</span>
+                            <strong class="target-big-value" id="prof-protein">--</strong>
+                            <span class="target-unit">grams / day</span>
+                        </div>
+                    </div>
+
+                    <!-- Biometrics & Secondary Macros -->
+                    <div class="profile-stats-row">
+                        <div class="stat-chip">
+                            <span class="stat-label">Height</span>
+                            <strong id="prof-height">-- cm</strong>
+                        </div>
+                        <div class="stat-chip">
+                            <span class="stat-label">Weight</span>
+                            <strong id="prof-weight">-- kg</strong>
+                        </div>
+                        <div class="stat-chip">
+                            <span class="stat-label">Carbs</span>
+                            <strong id="prof-carbs">--g</strong>
+                        </div>
+                        <div class="stat-chip">
+                            <span class="stat-label">Fats</span>
+                            <strong id="prof-fat">--g</strong>
+                        </div>
+                    </div>
+
+                    <!-- Tags for Goal, Diet & Conditions -->
+                    <div class="profile-meta-list">
+                        <div class="meta-item">
+                            <span class="meta-key">Goal &amp; Diet:</span>
+                            <span class="meta-val" id="prof-goal-diet">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-key">Conditions:</span>
+                            <span class="meta-val" id="prof-conditions">None</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Daily Intake Tracker -->
+                    <div class="daily-tracker-box">
+                        <div class="tracker-header">
+                            <h4>📅 Today's Logged Intake</h4>
+                            <button type="button" id="reset-log-btn" class="text-link-btn" title="Reset today's logged meals">Reset</button>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-labels">
+                                <span>Calories</span>
+                                <strong id="log-cal-text">0 / 2000 kcal</strong>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="log-cal-bar" class="progress-bar-fill cal-fill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-labels">
+                                <span>Protein</span>
+                                <strong id="log-pro-text">0 / 100 g</strong>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="log-pro-bar" class="progress-bar-fill pro-fill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        <p class="tracker-hint">Click <em>"+ Log Serving"</em> on any food analysis in chat to track your daily progress.</p>
+                    </div>
+                </aside>
+
+                <!-- RIGHT / BOTTOM: The Chat Interface -->
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div>
+                            <h3>NutriAI Assistant</h3>
+                            <span class="chat-subtitle">INDB Database + Live Web Search</span>
+                        </div>
+                        <div class="chat-header-actions">
+                            <button type="button" id="clear-chat-btn" class="header-action-btn" title="Clear chat history">Clear Chat</button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-history" id="chat-history" aria-live="polite">
+                        <!-- Chat bubbles injected by JS -->
+                    </div>
+
+                    <!-- Quick-Ask Suggestion Chips -->
+                    <div class="quick-chips-bar" aria-label="Quick food queries">
+                        <button type="button" class="quick-chip" data-query="Maggi 2-Minute Noodles">🍜 Maggi</button>
+                        <button type="button" class="quick-chip" data-query="Oreo Biscuits">🍪 Oreo Biscuits</button>
+                        <button type="button" class="quick-chip" data-query="Rajmah curry">🍛 Rajma Curry</button>
+                        <button type="button" class="quick-chip" data-query="Paneer parantha">🫓 Paneer Paratha</button>
+                        <button type="button" class="quick-chip" data-query="Masala dosa">🥞 Masala Dosa</button>
+                        <button type="button" class="quick-chip" data-query="Boiled egg">🥚 Boiled Egg</button>
+                    </div>
+                    
+                    <form id="chat-form" class="chat-input-area">
+                        <input type="text" id="chat-input" aria-label="Ask about a food" required autocomplete="off" placeholder="Ask about any food (e.g., Rajma, Maggi, Oreo, Samosa)...">
+                        <button type="submit" id="send-btn" class="primary-btn">Analyze</button>
+                    </form>
                 </div>
-                
-                <form id="chat-form" class="chat-input-area">
-                    <input type="text" id="chat-input" aria-label="Ask about a food" required autocomplete="off" placeholder="Ask about a food (e.g., Rajma) ...">
-                    <button type="submit" id="send-btn" class="primary-btn">Send</button>
-                </form>
+
             </div>
         </section>
     </main>
 
-    <!-- Modal for Full Insights -->
+    <!-- Modal for Full Technical Insights -->
     <div id="insights-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-food-name">
         <div class="modal-content">
             <button type="button" id="close-modal" class="close-modal" aria-label="Close">&times;</button>
-            <h3 id="modal-food-name">Food Name</h3>
-            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: -10px;">Nutrition verified per 100g from INDB</p>
-            <ul id="modal-macros-list">
-                <!-- Populated by JS -->
-            </ul>
+            <div class="modal-header-block">
+                <span id="modal-source-badge" class="source-badge">INDB Verified</span>
+                <h3 id="modal-food-name">Food Name</h3>
+                <p id="modal-serving-subtitle" class="modal-subtitle">Complete Nutritional &amp; Micronutrient Breakdown (per 100g)</p>
+            </div>
+            <div id="modal-technical-body" class="modal-scroll-area">
+                <!-- Populated dynamically by JS -->
+            </div>
         </div>
     </div>
 
-    <footer class="disclaimer">NutriAI offers general wellness information, not medical advice. Your profile stays in your browser; chat messages are sent to Google's Gemini API.</footer>
+    <footer class="disclaimer">NutriAI offers general nutritional and wellness information, not clinical medical advice. Your profile stays in your browser; queries are securely processed via Vercel Serverless &amp; Google Gemini.</footer>
 
     <script src="script.js"></script>
 </body>
